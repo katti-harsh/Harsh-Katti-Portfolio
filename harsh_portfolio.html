@@ -1,0 +1,584 @@
+<!doctype html>
+<title>Harsh Katti</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============ TOKENS ============ */
+  :root {
+    --paper: #f4f5f2;
+    --paper-raised: #ffffff;
+    --ink: #14181a;
+    --ink-soft: #3c4340;
+    --muted: #676f6a;
+    --rule: #d9dcd4;
+    --rule-strong: #c2c7bc;
+    --accent: #175c42;
+    --accent-ink: #ffffff;
+    --accent-soft: #e3ece5;
+    --amber: #9a5b17;
+    --amber-soft: #f3e6d3;
+    --shadow: 0 1px 2px rgba(20, 24, 26, 0.04);
+    --radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0d100e;
+      --paper-raised: #161a17;
+      --ink: #edefe9;
+      --ink-soft: #c7ccc4;
+      --muted: #8b938a;
+      --rule: #2a2f2a;
+      --rule-strong: #3a4038;
+      --accent: #4fce9e;
+      --accent-ink: #0d100e;
+      --accent-soft: #17241d;
+      --amber: #e3a155;
+      --amber-soft: #2a2115;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0d100e;
+    --paper-raised: #161a17;
+    --ink: #edefe9;
+    --ink-soft: #c7ccc4;
+    --muted: #8b938a;
+    --rule: #2a2f2a;
+    --rule-strong: #3a4038;
+    --accent: #4fce9e;
+    --accent-ink: #0d100e;
+    --accent-soft: #17241d;
+    --amber: #e3a155;
+    --amber-soft: #2a2115;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  h1, h2, h3, h4 { font-family: "Fraunces", Georgia, serif; font-weight: 600; margin: 0; text-wrap: balance; }
+  a { color: inherit; }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+  .mono { font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-variant-numeric: tabular-nums; }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 28px; }
+
+  /* ============ NAV ============ */
+  header.site {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    max-width: 920px; margin: 0 auto;
+  }
+  .brand { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.05rem; letter-spacing: 0.01em; text-decoration: none; }
+  .brand .mono { color: var(--muted); font-size: 0.7rem; margin-left: 8px; letter-spacing: 0.06em; }
+  nav.links { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+  nav.links a {
+    text-decoration: none; color: var(--muted); font-size: 0.82rem;
+    letter-spacing: 0.03em; text-transform: uppercase; font-weight: 500;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--ink); border-color: var(--accent); }
+  .nav-cta {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+    text-decoration: none; color: var(--accent-ink); background: var(--accent);
+    padding: 8px 14px; border-radius: var(--radius); font-weight: 600;
+    white-space: nowrap;
+  }
+  .nav-toggle { display: none; }
+
+  @media (max-width: 720px) {
+    nav.links { display: none; }
+    .nav-cta { padding: 7px 11px; font-size: 0.72rem; }
+  }
+
+  /* ============ HERO ============ */
+  section.hero { padding: 76px 0 56px; border-bottom: 1px solid var(--rule); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "IBM Plex Mono"; font-size: 0.74rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 22px;
+  }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; background: var(--accent); display: inline-block; }
+  .hero h1 {
+    font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.14; max-width: 15ch;
+    font-style: italic;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    max-width: 56ch; margin-top: 22px; font-size: 1.05rem; color: var(--ink-soft);
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px;
+    padding-top: 22px; border-top: 1px solid var(--rule);
+  }
+  .hero-meta div { font-size: 0.86rem; }
+  .hero-meta .label { display: block; font-family: "IBM Plex Mono"; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 3px; }
+
+  /* ============ SECTION SHELL ============ */
+  section.block { padding: 58px 0; border-bottom: 1px solid var(--rule); }
+  .kicker {
+    font-family: "IBM Plex Mono"; font-size: 0.72rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .kicker .num { color: var(--accent); }
+  .kicker::after { content: ""; height: 1px; background: var(--rule-strong); flex: 1; }
+  h2.title { font-size: clamp(1.5rem, 2.6vw, 1.9rem); margin-bottom: 26px; }
+
+  /* ============ ABOUT ============ */
+  .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 46px; align-items: start; }
+  .about-grid p { color: var(--ink-soft); margin: 0 0 16px; max-width: 60ch; }
+  .about-grid p:last-child { margin-bottom: 0; }
+  .facts { display: grid; gap: 14px; padding: 20px; background: var(--paper-raised); border: 1px solid var(--rule); }
+  .facts dt { font-family: "IBM Plex Mono"; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .facts dd { margin: 2px 0 0; font-size: 0.92rem; }
+  @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; } }
+
+  /* ============ EXPERIENCE ============ */
+  .timeline { position: relative; }
+  .role { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 26px 0; border-top: 1px solid var(--rule); }
+  .role:first-child { border-top: none; }
+  .role .when { font-family: "IBM Plex Mono"; font-size: 0.78rem; color: var(--muted); padding-top: 4px; }
+  .role .when strong { display: block; color: var(--accent); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .role h3 { font-size: 1.14rem; font-weight: 600; margin-bottom: 3px; }
+  .role .place { font-size: 0.86rem; color: var(--muted); margin-bottom: 12px; }
+  .role ul { margin: 0; padding-left: 18px; color: var(--ink-soft); }
+  .role li { margin-bottom: 7px; }
+  .role li::marker { color: var(--accent); }
+  @media (max-width: 640px) { .role { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* ============ CASE STUDIES / RESEARCH CARDS ============ */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .card-grid { grid-template-columns: 1fr; } }
+  .case {
+    background: var(--paper-raised); border: 1px solid var(--rule);
+    padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .case-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .case-head h3 { font-size: 1.06rem; line-height: 1.3; }
+  .case-head .ticker { font-family: "IBM Plex Mono"; font-size: 0.78rem; color: var(--muted); display: block; margin-top: 3px; }
+  .rating {
+    font-family: "IBM Plex Mono"; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.05em;
+    padding: 4px 8px; white-space: nowrap; border-radius: var(--radius);
+  }
+  .rating.buy { background: var(--accent-soft); color: var(--accent); }
+  .rating.accumulate { background: var(--amber-soft); color: var(--amber); }
+  .rating.sector { background: var(--rule); color: var(--ink-soft); }
+  .case p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .case p.q { font-style: italic; font-family: "Fraunces"; font-size: 1rem; color: var(--ink); line-height: 1.4; }
+  .case .label { font-family: "IBM Plex Mono"; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); display: block; margin-bottom: 2px; }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border-top: 1px solid var(--rule); padding-top: 14px; }
+  .stat { }
+  .stat .v { font-family: "IBM Plex Mono"; font-size: 1.02rem; font-weight: 600; color: var(--accent); display: block; }
+  .stat .k { font-size: 0.68rem; color: var(--muted); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 10px; }
+  .tag { font-size: 0.7rem; color: var(--muted); border: 1px solid var(--rule); padding: 3px 8px; border-radius: var(--radius); }
+
+  .research-card { background: var(--paper-raised); border: 1px solid var(--rule); padding: 22px; margin-bottom: 16px; }
+  .research-card:last-child { margin-bottom: 0; }
+  .research-card .rh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .research-card h3 { font-size: 1.08rem; }
+  .research-card .dist { font-family: "IBM Plex Mono"; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); border: 1px solid var(--accent); padding: 3px 8px; }
+  .research-card .meta { font-size: 0.8rem; color: var(--muted); margin: 4px 0 12px; }
+  .research-card p { margin: 0 0 8px; font-size: 0.9rem; color: var(--ink-soft); }
+  .research-card p:last-child { margin-bottom: 0; }
+  .research-card .finding { border-left: 2px solid var(--accent); padding-left: 12px; font-family: "Fraunces"; font-style: italic; color: var(--ink); }
+
+  /* ============ SKILLS ============ */
+  .skill-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  @media (max-width: 720px) { .skill-cols { grid-template-columns: 1fr; } }
+  .skill-col h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-family: "IBM Plex Mono"; margin-bottom: 12px; font-weight: 500; }
+  .chip-set { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-size: 0.82rem; padding: 5px 11px; border: 1px solid var(--rule); background: var(--paper-raised); border-radius: var(--radius); }
+
+  /* ============ EDUCATION ============ */
+  .edu-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 16px 0; border-top: 1px solid var(--rule); align-items: baseline; }
+  .edu-row:first-child { border-top: none; }
+  .edu-row h3 { font-size: 1.02rem; }
+  .edu-row .sub { font-size: 0.84rem; color: var(--muted); margin-top: 2px; }
+  .edu-row .grade { font-family: "IBM Plex Mono"; font-size: 0.78rem; color: var(--accent); text-align: right; }
+  .cert-block { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  .cert-block .label { font-family: "IBM Plex Mono"; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); display: block; margin-bottom: 8px; }
+  .cert-block p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); }
+  .lang-row { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
+  .lang-row span { font-size: 0.84rem; }
+  .lang-row b { font-weight: 600; }
+
+  /* ============ BEYOND WORK ============ */
+  .beyond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 720px) { .beyond-grid { grid-template-columns: 1fr; } }
+  .beyond-card { padding: 20px; border: 1px solid var(--rule); background: var(--paper-raised); }
+  .beyond-card h4 { font-size: 0.95rem; margin-bottom: 8px; }
+  .beyond-card p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); }
+
+  /* ============ CONTACT / FOOTER ============ */
+  section.contact { padding: 64px 0; text-align: left; }
+  section.contact h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); max-width: 18ch; font-style: italic; }
+  section.contact .lede { color: var(--ink-soft); max-width: 52ch; margin-top: 14px; font-size: 1.02rem; }
+  .contact-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .contact-row a {
+    text-decoration: none; font-size: 0.86rem; padding: 11px 18px; border: 1px solid var(--rule-strong);
+    display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .contact-row a.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  .contact-row a:hover { border-color: var(--accent); }
+  footer { border-top: 1px solid var(--rule); padding: 22px 0 40px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 0.78rem; color: var(--muted); font-family: "IBM Plex Mono"; }
+
+  .reveal { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+</style>
+
+<header class="site">
+  <div class="nav-inner">
+    <a href="#top" class="brand">Harsh Katti <span class="mono">S&O</span></a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#research">Research</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="eyebrow">Bengaluru, India &middot; Open to relocation</div>
+      <h1>Business strategy and analysis that ends in <em>a decision</em>, not just a deck.</h1>
+      <p class="hero-sub">MSc Finance &amp; Investment graduate (Durham University Business School) working across strategy, operations and financial analysis. I like taking a messy problem, breaking it into a clear structure, then building the analysis, the process, and the client conversation that turns it into a decision, at whatever scale it needs to work. Off the clock, I'm probably up a mountain or behind a guitar.</p>
+      <div class="hero-meta">
+        <div><span class="label">Based in</span>Bengaluru, India</div>
+        <div><span class="label">Currently</span>Freelance Finance &amp; Business Analyst</div>
+        <div><span class="label">Degree</span>MSc Finance &amp; Investment, Durham</div>
+        <div><span class="label">Languages</span>English, Hindi (fluent)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="about">
+    <div class="wrap">
+      <div class="kicker"><span class="num">01</span> About</div>
+      <div class="about-grid">
+        <div>
+          <p>I'm a finance graduate who thinks like a consultant. Give me a messy business problem and I'll break it into a clear structure, work out what actually needs answering, then build the analysis behind it. That means moving comfortably between strategic framing, financial modelling, market research, and the client conversation that turns analysis into a decision.</p>
+          <p>Since January 2026 I've worked as a freelance business &amp; finance analyst in Bengaluru, helping small business owners make sense of their numbers and plan their next move, turning raw operational data into a structured recommendation they can act on. Before that, I built three-statement and DCF models at Cargill Business Studio that supported live investor discussions, and ran client-facing growth and market-expansion work at Panorbit and Goldenbird International, including a UAE push that landed a flagship account in Dubai.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>Location</dt><dd>Bengaluru, India</dd></div>
+          <div><dt>Email</dt><dd>harshkatti0@gmail.com</dd></div>
+          <div><dt>Phone</dt><dd>+91 82777 03904</dd></div>
+          <div><dt>LinkedIn</dt><dd>linkedin.com/in/harsh-katti</dd></div>
+          <div><dt>Education</dt><dd>MSc Finance &amp; Investment, Durham</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="experience">
+    <div class="wrap">
+      <div class="kicker"><span class="num">02</span> Experience</div>
+      <div class="timeline">
+        <div class="role">
+          <div class="when"><strong>Present</strong>Jan 2026 &ndash; Now</div>
+          <div>
+            <h3>Freelance Finance &amp; Business Analyst</h3>
+            <div class="place">Self-Employed &middot; Bengaluru, India</div>
+            <ul>
+              <li>Work directly with 6 small business owners in Bengaluru to scope what they actually need, then deliver financial models, valuations, and market research they can use to make real decisions.</li>
+              <li>Built Excel and Python tools that turn a client's raw operational data into a clear view of what is working and what is not, so we can talk about it in plain terms rather than a spreadsheet.</li>
+              <li>Manage the full client relationship end to end, from the first conversation about what they are trying to solve through to presenting findings and next steps.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="role">
+          <div class="when">Mar &ndash; Jun 2024</div>
+          <div>
+            <h3>Business Development Analyst, Panorbit</h3>
+            <div class="place">Bengaluru, India</div>
+            <ul>
+              <li>Ran high-volume outbound outreach (80+ calls a day) to identify and pitch prospective restaurant partners, converting 30 to 35 into signed accounts &mdash; all still active clients more than two years on.</li>
+              <li>Designed a framework to rank client accounts by follow-up priority and consolidated scattered tracking into a single system, so the team could see relationship status without asking around.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="role">
+          <div class="when">Jun &ndash; Sep 2023</div>
+          <div>
+            <h3>Business Development &amp; Finance Intern, Cargill Business Studio</h3>
+            <div class="place">Bengaluru, India</div>
+            <ul>
+              <li>Built three-statement and DCF models used in live investor discussions, supporting a deal that closed during my time there.</li>
+              <li>Identified and sized financial risks across a set of investment ideas, feeding directly into how the team weighed each one.</li>
+              <li>Wrote valuation memos and pitch decks for senior meetings, turning dense analysis into a handful of clear points.</li>
+              <li>Researched 50+ companies using Python and Tableau to map out where the real market opportunities were.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="role">
+          <div class="when">Aug 2020 &ndash; Dec 2022</div>
+          <div>
+            <h3>Business Development Intern, Goldenbird International</h3>
+            <div class="place">Manipal, India &middot; part-time alongside studies</div>
+            <ul>
+              <li>Ran weekly on-ground outreach to schools across two markets, using PESTLE and SWOT analysis to guide an expansion push into the UAE that helped land a leading private school group in Dubai as a flagship account.</li>
+              <li>Built and managed relationships with 20 to 35 institutional clients across India and the UAE, the backbone of the team's expansion pitch.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="cases">
+    <div class="wrap">
+      <div class="kicker"><span class="num">03</span> Case Studies</div>
+      <h2 class="title">Research notes, written like they'd cross a real desk.</h2>
+      <div class="card-grid">
+
+        <div class="case">
+          <div class="case-head">
+            <div><h3>Apple Inc.</h3><span class="ticker">AAPL &middot; Equity Research &middot; Mar 2026</span></div>
+            <span class="rating buy">BUY</span>
+          </div>
+          <p class="q">"Does Apple's premium hardware franchise still justify a premium multiple heading into FY26?"</p>
+          <p><span class="label">Approach</span>Built a segment-level revenue and margin model (iPhone, Services, Mac, iPad, Wearables) across FY22&ndash;FY26, then layered in a DCF and LBO to stress-test the valuation.</p>
+          <p><span class="label">Call</span>Initiated BUY with a 12-month price target of $300, about 20% upside from $250.</p>
+          <div class="stat-row">
+            <div class="stat"><span class="v mono">$250&rarr;$300</span><span class="k">Price &rarr; target</span></div>
+            <div class="stat"><span class="v mono">~20%</span><span class="k">Implied upside</span></div>
+            <div class="stat"><span class="v mono">46.9%</span><span class="k">Gross margin, FY25</span></div>
+          </div>
+          <div class="tag-row"><span class="tag">DCF</span><span class="tag">LBO</span><span class="tag">Segment analysis</span><span class="tag">Risk assessment</span></div>
+        </div>
+
+        <div class="case">
+          <div class="case-head">
+            <div><h3>Microsoft Corp.</h3><span class="ticker">MSFT &middot; Investment Thesis &middot; Mar 2026</span></div>
+            <span class="rating buy">BUY</span>
+          </div>
+          <p class="q">"Is Microsoft's AI investment turning into a growth story the market hasn't already priced in?"</p>
+          <p><span class="label">Approach</span>Built a blended DCF and comparable-company valuation around Azure's growth and Copilot's monetisation runway, with an explicit catalysts-versus-risks framework.</p>
+          <p><span class="label">Call</span>Initiated BUY with a 12-month price target of $510, about 26% upside from $405.</p>
+          <div class="stat-row">
+            <div class="stat"><span class="v mono">$405&rarr;$510</span><span class="k">Price &rarr; target</span></div>
+            <div class="stat"><span class="v mono">~26%</span><span class="k">Implied upside</span></div>
+            <div class="stat"><span class="v mono">45.6%</span><span class="k">Operating margin, FY25</span></div>
+          </div>
+          <div class="tag-row"><span class="tag">DCF</span><span class="tag">Comps</span><span class="tag">Segment mix</span><span class="tag">Catalysts &amp; risks</span></div>
+        </div>
+
+        <div class="case">
+          <div class="case-head">
+            <div><h3>Schneider Electric</h3><span class="ticker">SU &middot; 3-Statement Model &middot; Mar 2026</span></div>
+            <span class="rating accumulate">ACCUMULATE</span>
+          </div>
+          <p class="q">"At &euro;255, is Schneider Electric fairly priced for its exposure to data centre and grid infrastructure demand?"</p>
+          <p><span class="label">Approach</span>Built a complete integrated model (income statement, balance sheet, cash flow) linked through explicit assumptions, then triangulated fair value via DCF and peer comps.</p>
+          <p><span class="label">Call</span>Rated ACCUMULATE, with a base-case DCF fair value of &euro;225 and the market premium justified by secular tailwinds.</p>
+          <div class="stat-row">
+            <div class="stat"><span class="v mono">&euro;225</span><span class="k">DCF fair value</span></div>
+            <div class="stat"><span class="v mono">19.3x</span><span class="k">Implied EV/EBITDA</span></div>
+            <div class="stat"><span class="v mono">&euro;8.1B</span><span class="k">Net debt, FY24</span></div>
+          </div>
+          <div class="tag-row"><span class="tag">3-Statement</span><span class="tag">DCF sensitivity</span><span class="tag">Comps</span><span class="tag">Ratios dashboard</span></div>
+        </div>
+
+        <div class="case">
+          <div class="case-head">
+            <div><h3>Fintech Sector</h3><span class="ticker">8-company peer group</span></div>
+            <span class="rating sector">SECTOR STUDY</span>
+          </div>
+          <p class="q">"Where is the payments and fintech sector pricing quality over growth, and which names look mispriced?"</p>
+          <p><span class="label">Approach</span>Benchmarked Visa, Mastercard, PayPal, Block, Fiserv, Global Payments, Adyen and Intuit on growth, margin and valuation multiples across the peer set.</p>
+          <p><span class="label">Call</span>Flagged Global Payments as the cheapest name in the group and Adyen as the fastest grower, at 23% YoY.</p>
+          <div class="stat-row">
+            <div class="stat"><span class="v mono">20.5x</span><span class="k">Median EV/EBITDA</span></div>
+            <div class="stat"><span class="v mono">41.4%</span><span class="k">Avg. EBITDA margin</span></div>
+            <div class="stat"><span class="v mono">23%</span><span class="k">Adyen YoY growth</span></div>
+          </div>
+          <div class="tag-row"><span class="tag">Comps</span><span class="tag">Sector research</span><span class="tag">Investment view</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="research">
+    <div class="wrap">
+      <div class="kicker"><span class="num">04</span> Research</div>
+      <h2 class="title">Academic work, Durham University Business School.</h2>
+
+      <div class="research-card">
+        <div class="rh"><h3>The Rational Short Seller in an Irrational Market</h3><span class="dist">Distinction</span></div>
+        <p class="meta">MSc Dissertation &middot; September 2025</p>
+        <p><span class="label">Question</span>Are short sellers rational arbitrageurs, or just as exposed to behavioural noise as the market they trade against?</p>
+        <p><span class="label">Approach</span>An econometric study on 24 years of US equity data (2000&ndash;2024), testing four hypotheses on short selling, investor sentiment and limits to arbitrage.</p>
+        <p class="finding">Shorting intensity tracks investor sentiment more than fundamentals &mdash; high sentiment can delay price corrections by more than 60%.</p>
+      </div>
+
+      <div class="research-card">
+        <div class="rh"><h3>Reliance Industries Limited: Equity Research</h3><span class="dist">Distinction</span></div>
+        <p class="meta">Security Analysis coursework</p>
+        <p><span class="label">Question</span>Does Reliance's premium valuation hold up against its conglomerate structure and capital-intensive bets in energy and telecom?</p>
+        <p><span class="label">Approach</span>Full equity research report covering industry analysis, Porter's Five Forces and technical analysis, with an APV and real-options valuation benchmarked against peers.</p>
+        <p class="finding">Initiated BUY &mdash; intrinsic value holds modestly above market cap even in the worst-case scenario.</p>
+      </div>
+
+      <div class="research-card">
+        <div class="rh"><h3>Commodity Markets: Time Series &amp; Forecasting</h3></div>
+        <p class="meta">Financial Modelling coursework &middot; built in R</p>
+        <p><span class="label">Question</span>How do agricultural and industrial commodities move individually, and together, over a volatile ten-year stretch?</p>
+        <p><span class="label">Approach</span>Modelled ten years of daily data across five commodities (wheat, soybean, aluminium, soymeal, rubber) using ARMA forecasting, unit root and structural break tests, then Johansen cointegration and a VECM on the agricultural cluster.</p>
+        <p class="finding">Found a stable long-run relationship between wheat, soybean and soymeal &mdash; soybean prices Granger-cause both at the 1% significance level.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="skills">
+    <div class="wrap">
+      <div class="kicker"><span class="num">05</span> Skills</div>
+      <div class="skill-cols">
+        <div class="skill-col">
+          <h4>Strategy &amp; Advisory</h4>
+          <div class="chip-set">
+            <span class="chip">Needs discovery</span><span class="chip">Stakeholder management</span>
+            <span class="chip">Client relationship management</span><span class="chip">Presenting recommendations</span>
+            <span class="chip">Project scoping &amp; delivery</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <h4>Analysis</h4>
+          <div class="chip-set">
+            <span class="chip">Financial modelling (DCF, 3-statement)</span><span class="chip">Valuation</span>
+            <span class="chip">Market &amp; competitor research</span><span class="chip">Variance analysis</span>
+            <span class="chip">KPI &amp; MIS reporting</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <h4>Tools</h4>
+          <div class="chip-set">
+            <span class="chip">Bloomberg Terminal</span><span class="chip">Refinitiv Eikon</span>
+            <span class="chip">Advanced Excel</span><span class="chip">Alteryx</span>
+            <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">PowerPoint</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="education">
+    <div class="wrap">
+      <div class="kicker"><span class="num">06</span> Education</div>
+      <div class="edu-row">
+        <div>
+          <h3>MSc Finance and Investment</h3>
+          <div class="sub">Durham University Business School, UK &middot; 2024&ndash;2025 &middot; Degree conferred July 2026</div>
+        </div>
+        <div class="grade mono">Merit</div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <h3>BA Foundation in Management</h3>
+          <div class="sub">Manipal Academy of Higher Education, India &middot; 2020&ndash;2023</div>
+        </div>
+        <div class="grade mono">Distinction</div>
+      </div>
+      <div class="cert-block">
+        <span class="label">Certifications</span>
+        <p>Bloomberg Market Concepts &middot; Bloomberg ESG Investing &middot; Morgan Stanley &amp; UBS Investment Analyst Simulation &middot; Advanced Fixed Income Securities &middot; Finance Accelerator IB Simulator</p>
+        <div class="lang-row">
+          <span><b>English</b> &middot; fluent</span>
+          <span><b>Hindi</b> &middot; fluent</span>
+          <span><b>German</b> &middot; beginner</span>
+          <span><b>Marathi</b> &middot; beginner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block reveal" id="beyond">
+    <div class="wrap">
+      <div class="kicker"><span class="num">07</span> Beyond Work</div>
+      <div class="beyond-grid">
+        <div class="beyond-card">
+          <h4>Music</h4>
+          <p>I play guitar and keyboard for fun, and I'm slowly (very slowly) teaching myself drums. That's next on the list.</p>
+        </div>
+        <div class="beyond-card">
+          <h4>Trekking</h4>
+          <p>I chase trails whenever I can get away. I've trekked in the Himalayas, summited Patalsu Peak via Solang Valley, and, more recently, walked the Seven Sisters Cliffs near Seaford in the UK.</p>
+        </div>
+        <div class="beyond-card">
+          <h4>Running</h4>
+          <p>Recently picked up running. It's taking a while to get used to, but it's starting to stick, and I'm building the habit one run at a time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact reveal" id="contact">
+    <div class="wrap">
+      <h2>Let's talk about your next strategy, model or mandate.</h2>
+      <p class="lede">Open to full-time strategy and operations roles, plus freelance financial modelling, valuation, or market research engagements.</p>
+      <div class="contact-row">
+        <a class="primary" href="mailto:harshkatti0@gmail.com">harshkatti0@gmail.com</a>
+        <a href="tel:+918277703904">+91 82777 03904</a>
+        <a href="https://linkedin.com/in/harsh-katti" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Harsh Katti &middot; Bengaluru, India</span>
+    <span>Built 2026</span>
+  </div>
+</footer>
+
+<script>
+  try {
+    var els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(function (el) { el.classList.add('in'); });
+    }
+  } catch (e) {}
+</script>
